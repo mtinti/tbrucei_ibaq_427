@@ -4,22 +4,20 @@
 <head>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXW45TDMG1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WL3M1M3GK"></script>
   <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-EXW45TDMG1');
+    gtag('config', 'G-9WL3M1M3GK');
   </script>
-
-
 
   <meta charset="UTF-8">
 
 
 
-  <title>iBAQ-427</title>
+  <title id='tab_title'> tab_title </title>
 
 
 
@@ -40,7 +38,7 @@
 
   <link rel="stylesheet" type="text/css" href="CSS/app.css">
   <link rel="stylesheet"  href="CSS/external/c3.min.css">
-
+  <link rel="stylesheet" href="CSS/external/huebee.css">
   
 </head>
 
@@ -86,38 +84,68 @@
 
       <div class="col-md-6">
         <button id='button_2' type="submit" class="btn btn-primary" onclick="save_as_svg('plot2');">Download Plot</button>
-        <svg id="plot2"></svg>
+        <svg id="plot1"></svg>
         
       </div>
       
       <div class="col-md-6">
         
         <button type="submit" class="btn btn-primary" onclick="save_as_svg('plot1');">Download Plot</button>
-        <svg id="plot1"></svg>
+        <svg id="plot2"></svg>
         
       </div>
 
       
     </div>
 
-    <div class="row d-flex flex-row">
+    <div class="row d-flex flex-row" id="reset_table_div">
 
-      <div class="col-md-5">
-        <button id="seach_visible", type="submit" class="btn btn-primary" >Seach Visible</button>
-      <div> <br> </div>
+      <div class="col-md-5" >
+        <form id="my-form-table">
+        <button id="seach_visible" type="submit" class="btn btn-primary" >Seach Visible</button>
+        <button id="reset_table"   type="reset" class="btn btn-primary" >Reset Table</button>
+        <div> <br> </div>
+        </form>
         <table id='table' class="display compact"></table>
       </div>
-      
 
-      <div class="col-md-2">
+      <div class="col-md-2" id="my-form-div">
         
         <form id="my-form">
           <div class="form-outline">
+            <div>
+              Select Multiple IDs
+            </div>
             <textarea class="form-control" id="textAreaIDs" rows="8" style="font-size:12px;"></textarea>
-            <label class="form-label" for="textAreaIDs">Select Multiple IDs</label>
+
+            
+            <label class="form-label" for="textAreaIDs"></label>
             <br>
+
+
+            <div id="colorpicker_div" >
+              Select Color for selection
+            <input id="colorpicker_value" type="text" class="color-input" value="orange" />
+            
+            </div>
+            <br>
+
+
+
             <button type="submit" class="btn btn-primary" >Submit</button>
-            <button type="reset" class="btn btn-primary" >Reset</button>
+            <button type="reset"  class="btn btn-primary" >Reset</button>
+            
+
+
+
+
+
+
+
+
+
+
+            
           </div>
         </form>
         
@@ -209,7 +237,7 @@
   <script type="text/javascript" src="JS/drag_element2.js"></script>  
   <script type="text/javascript" src="JS/app.js"></script>
   <script type="text/javascript" src="JS/tour.js"></script> 
-  <script type="text/javascript" src="JS/external/d3-drag.v2.min.js"></script>
+
   <script type="text/javascript" src="JS/FileSaver.min.js"></script>
 
   <script src="JS/external/c3.js"></script>
@@ -217,12 +245,37 @@
 
   <script src="JS/external/pdfkit.standalone.js"></script>
   <script src="JS/external/source.js"></script>
+  <script src="JS/external/huebee.pkgd.min.js"></script>
+
+
+  <script>
+
+    // use selector string to initialize on single element
+    var hueb = new Huebee( '.color-input', {
+      // options
+      setBGColor: true,
+      saturations: 1,
+    });
+
+
+  </script>
 
   <script>
     
     $.LoadingOverlay("show", {imageColor:'#000000'});
 
+
+    var xs_box = {
+      //CONDITION_1: 'x1',
+      //CONDITION_2: 'x2',
+        };
+    xs_box[CONDITION_1]='x1';
+    xs_box[CONDITION_2]='x2';
+    console.log('xs_box',xs_box);
+
     var box_plot_chart = c3.generate({
+
+
 
       oninit: function() {
         this.svg.attr('id', 'bar_chart_svg')
@@ -232,6 +285,8 @@
       title: {
         text: ''
       },
+
+
         
       data: {
 
@@ -248,11 +303,8 @@
         
       },
 
-      xs: {
-            'BSF': 'x1',
-            'PCF': 'x2',
-        },
 
+      xs: xs_box,
 
       axis: {
 
@@ -375,7 +427,7 @@
 
       
       //use all the columns in the file
-      var columns = files[0].columns.slice(0,8);
+      var columns = COLUMNS_TO_TABULATE; //files[0].columns.slice(0,8);
       //console.log('File Columns', columns);
       //add data to the table
       tabulate(files[0], columns, '#table');
@@ -416,23 +468,26 @@
       var table = $('#table').DataTable(
         {
           "dom": 'lfrtipB',
-          "buttons": [{ extend: 'csv', text: 'Dowwnload table as csv' }],
+          "buttons": [{ extend: 'csv', text: 'Download table as csv' }],
           "search": {"regex": true},
           "lengthMenu": [[-1, 5, 10, 20, 25, 50, 100 ], 
           [ 'Show all', '5 rows', '10 rows', '20 rows', '25 rows', '50 rows', '100 rows' ]],
-          "pageLength": 5,
+          "pageLength": 6,
           "scrollX": true,
           "columnDefs": columnDefs,
 
           "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
             return 'Showing '+iStart +" to "+ iEnd +' of '+iTotal+' entries. Scroll right to see more columns.';},
 
+          
           "bSortClasses": false,
           //https://stackoverflow.com/questions/38575079/
           'createdRow': function(nRow, aData, iDataIndex) {
             //console.log('aData',aData);
             $(nRow).attr('id', 'row_' + aData[0]); // or if you prefer 'row' + aData.aid + aData.bid
           }
+
+          
           
         }
       );
@@ -472,6 +527,11 @@
 
 
         $('#my-form').on("submit", function(e) {
+
+          
+          var colorpicker_value = $('#colorpicker_value').val();
+          console.log(colorpicker_value);
+
           e.preventDefault(); // cancel the actual submit and page reload
           /* do what you want with the form */
           
@@ -499,7 +559,7 @@
 
           for (i = 0; i < selectedIDs.length; i++){
             d3.selectAll("circle[id*='" + selectedIDs[i] + "']")
-                .style("stroke", COLOR_SELECTION_CIRCLE)
+                .style("stroke", colorpicker_value)
                 .style("opacity", 1)
                 .attr("stroke-width", '5')
                 .raise();
@@ -522,6 +582,12 @@
           table.search('').columns().search('').draw();
         
         });  
+
+      $('#my-form-table').on("reset", function(e) {
+        console.log('reset table');
+        table.search('').columns().search('').draw();
+      });
+
 
       //select the columns to plot from config file
       //add the plots
@@ -564,6 +630,8 @@
         $('#prot_name').html(box_plot_id_to_desc[gene_acc_int]);
 
         d3.select('#bar_chart .c3-title').node().innerHTML = box_plot_id_to_name[gene_acc_int];
+
+
         //var label = d3.select('text.c3-title');
         //console.log('label',label);
         //label.html(''); // remove existant text
@@ -579,7 +647,7 @@
           //console.log(i);
           x1_array.push(i);}
         
-        for (var i = BOX_PLOT_COLS_1.length+1; i < BOX_PLOT_COLS_1.length+BOX_PLOT_COLS_2.length; i++) {
+        for (var i = BOX_PLOT_COLS_1.length+1; i < BOX_PLOT_COLS_1.length+BOX_PLOT_COLS_2.length+1; i++) {
           //console.log(i);
           x2_array.push(i);}
         
@@ -602,10 +670,7 @@
             //['x2',21,22,23,24,25,26,27,27,28,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47]
           ],
 
-          xs: {
-                    'BSF': 'x1',
-                    'PCF': 'x2',
-                },
+          xs: xs_box,
 
 
 
@@ -665,14 +730,23 @@
 
 
     });
+    
 
+
+    
+
+  
+  
+    
+
+ 
 
 
     $( document ).ready(function() {
       $.LoadingOverlay("hide");
 
       quotation('page_title', PROJECT_TITLE);
-
+      quotation('tab_title', TAB_TITLE);
 
 
 
@@ -680,6 +754,10 @@
       localStorage.removeItem('tour_current_step');
       localStorage.removeItem('tour_end');
       // Initialize the tour
+
+
+      ///$("#plot1 .my_class")
+
       tour.init();
   
       // Start the tour

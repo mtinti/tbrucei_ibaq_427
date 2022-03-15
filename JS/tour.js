@@ -2,9 +2,6 @@
 var tour = new Tour({
   steps: [
 
-
-
-
     {
       element: "#theImg",
       title: "Data Visualization App",
@@ -13,20 +10,20 @@ var tour = new Tour({
 
     {
       element: "#plot1",
-      title: "iBAQ plot",
-      content: "This plot shows the iBAQ values between BSF and PCF life stages"
+      title: "Left Scatter Plot",
+      content: "This plot shows a scatter plot between two conditions"
     },
 
     {
       element: "#plot2",
-      title: "Rank plot",
-      content: "This plot ranks the iBAQ values between BSF and PCF life stages"
+      title: "Right Scatter Plot",
+      content: "This plot shows a scatter plot between two conditions"
     },
 
     {
       element: "#bar_chart",
-      title: "Bar chart",
-      content: "This plot show the iBAQ values for each experiment in BSF (n=21) and PCF (n=27)"
+      title: "Bar Chart",
+      content: "This plot show the raw values between conditions"
     },
     
 
@@ -58,14 +55,14 @@ var tour = new Tour({
   {
       element: "#table_wrapper",
       title: "Table Highlight",
-      content: "Hovering on the table rows will highlight the genes \
+      content: "Hovering on the table rows will highlight the circle \
       in the scatter plots plots and update the bar plot"
   },
 
   {
       element: "#table_filter",
       title: "Search Table",
-      content: "Search with gene id or description"
+      content: "Search with id or description"
   },
 
   {
@@ -82,16 +79,22 @@ var tour = new Tour({
   },
 
   {
+    element: "#colorpicker_div",
+    title: "Search Color",
+    content: "You can select wich color to use to visualise the input ids on the scatter plots"
+  },
+
+  {
     element: "#prot_id",
     title: "Protein bar plot",
-    content: "Hovering over the protein id will highlight the protein \
+    content: "Hovering over the id will highlight the cicles \
     in the scatter plots and in the table"
   },
 
 
   {
     element: "#button_2",
-    title: "Ssve/Download the image",
+    title: "Save/Download the image",
     content: "Click on this button to save the plot as an SVG file"
   },
 
