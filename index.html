@@ -4,13 +4,13 @@
 <head>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WL3M1M3GK"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXW45TDMG1"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-9WL3M1M3GK');
+  gtag('config', 'G-EXW45TDMG1');
   </script>
 
   <meta charset="UTF-8">
@@ -248,7 +248,27 @@
   <script src="JS/external/huebee.pkgd.min.js"></script>
 
 
+
   <script>
+  //this code truncate the content of a cell in the datatable
+  //used for the description field
+  var render_function = function(data, type, row) {
+        if (type === 'display' && data != null) {
+          data = data.replace(/<(?:.|\\n)*?>/gm, '');
+          if(data.length > 35) {
+            return '<span class=\"show-ellipsis\">' + data.substr(0, 35) + '</span><span class=\"no-show\">' + data.substr(35) + '</span>';
+          } else {
+            return data;
+          }
+        } else {
+          return data;
+        }
+      };
+
+
+
+
+
 
     // use selector string to initialize on single element
     var hueb = new Huebee( '.color-input', {
@@ -446,10 +466,14 @@
         "searchable": true },
 
         {"targets": columns.indexOf('Desc'), 
-        "searchable": true },
+        "searchable": true,
+      
+        "render": render_function},
 
         {"targets": columns.indexOf('Protein IDs'), 
-        "searchable": true },
+        "searchable": true},
+
+
 
       ];
 
@@ -747,8 +771,6 @@
 
       quotation('page_title', PROJECT_TITLE);
       quotation('tab_title', TAB_TITLE);
-
-
 
 
       localStorage.removeItem('tour_current_step');

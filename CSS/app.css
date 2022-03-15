@@ -48,3 +48,10 @@ margin-right: 0;
 #prot_id {
 font-size: 24px;
 }
+
+span.no-show{
+  display: none;
+}
+span.show-ellipsis:after{
+  content: "...";
+}
